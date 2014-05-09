@@ -17,6 +17,15 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def index
+    all_users = User.all
+    @users = all_users.select do |user|
+      Friendship.can_friend?(user.id, current_user)
+    end
+
+
+  end
+
   def show
     if !params.include?(:id)
       redirect_to user_url(current_user)

@@ -24,6 +24,22 @@ class User < ActiveRecord::Base
     :class_name => "Secret",
     :foreign_key => :recipient_id
   )
+  #friendships where you requested
+  has_many :out_friendships,
+    class_name: "Friendship",
+    foreign_key: :out_friend_id
+
+
+  #friendships where you were requested
+  has_many :in_friendships,
+    class_name: "Friendship",
+    foreign_key: :in_friend_id
+
+  #friends that requested you
+  has_many :in_friends, through: :in_friendships, source: :in_friend
+
+  #friends that we requested
+  has_many :out_friends, through: :out_friendships, source: :in_friend
 
   validates :password_digest, :presence => { :message => "Password can't be blank" }
   validates :password, :length => { :minimum => 6, :allow_nil => true }
