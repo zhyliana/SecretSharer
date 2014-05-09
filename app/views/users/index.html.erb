@@ -1,3 +1,30 @@
 <h1>Users index</h1>
 
 <%= render @users %>
+<script>
+$(".friend").on("click",function(event){
+  event.preventDefault();
+  // debugger
+  $(event.target).attr('value', 'Friending...')
+
+  var id = parseInt($(event.target).attr("data-id"));
+  // alert(id);
+
+
+
+  $.ajax({
+    url: "/users/" + id + "/friendships.json",
+    type: "POST",
+    data: {
+      friendship:
+      {
+        in_friend_id: id
+      }
+    },
+    success: function(){
+      event.target.remove()
+      console.log('success!');
+    }
+  })
+})
+</script>

@@ -1,9 +1,19 @@
 class FriendshipsController < ApplicationController
   def create
-    @friendship = Friendship.new(
-      in_friend_id: params[:user_id],
-      out_friend_id: current_user.id)
+    sleep(1)
+    @friendship = Friendship.new(friendship_params)
+    @friendship.out_friend_id = current_user.id
     @friendship.save!
-    redirect_to users_url
+
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.json { render :json => @friendship }
+    end
+  end
+
+  private
+
+  def friendship_params
+    params.require(:friendship).permit(:in_friend_id)
   end
 end
