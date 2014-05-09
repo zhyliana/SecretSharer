@@ -21,12 +21,10 @@ class Friendship < ActiveRecord::Base
     foreign_key: :in_friend_id
 
   def self.can_friend?(out_friend_id, current_user)
-    if out_friend_id == current_user.id ||
-        current_user.out_friends.include?(User.find(out_friend_id)) ||
-        current_user.in_friends.include?(User.find(out_friend_id))
-      return false
-    else
-      return true
-    end
+    !(out_friend_id == current_user.id ||
+    current_user.out_friends.include?(User.find(out_friend_id)) ||
+    current_user.in_friends.include?(User.find(out_friend_id)))
   end
+
+
 end

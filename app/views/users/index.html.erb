@@ -4,11 +4,10 @@
 <script>
 $(".friend").on("click",function(event){
   event.preventDefault();
-  // debugger
-  $(event.target).attr('value', 'Friending...')
+
+  $(event.target).prop("disabled", true)
 
   var id = parseInt($(event.target).attr("data-id"));
-  // alert(id);
 
 
 
@@ -21,10 +20,40 @@ $(".friend").on("click",function(event){
         in_friend_id: id
       }
     },
-    success: function(){
-      event.target.remove()
+    success: function(data){
+      $(event.target).parent().toggleClass('can-friend');
+      $(event.target).parent().toggleClass('can-unfriend');
+      $(event.target).siblings(".unfriend").attr("data-friendship-id", data.id);
+      $(event.target).siblings(".unfriend").prop("disabled", false)
       console.log('success!');
     }
   })
 })
+
+$(".unfriend").on("click", function(event){
+  event.preventDefault();
+
+  $(event.target).prop("disabled", true)
+
+
+  var userID = parseInt($(event.target).attr("data-id"));
+  var friendshipID = parseInt($(event.target).attr("data-friendship-id"));
+
+
+
+  $.ajax({
+    url: "/users/" + userID + "/friendships/" + friendshipID + ".json",
+    type: "DELETE",
+    data: {
+      id: friendshipID
+    },
+    success: function(){
+      $(event.target).parent().toggleClass('can-friend');
+      $(event.target).parent().toggleClass('can-unfriend');
+      $(event.target).siblings(".friend").prop("disabled", false)
+      console.log('Destroyed!');
+    }
+  })
+})
+
 </script>

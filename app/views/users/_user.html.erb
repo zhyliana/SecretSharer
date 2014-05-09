@@ -1,2 +1,16 @@
-<%= user.username %>
-<input type="submit" value="Add Friend"  class="friend" data-id="<%= user.id %>"><br>
+<b><%= user.username %></b>
+
+<% if can_unfriend?(user)%>
+  <% div_class = "can-unfriend" %>
+<% else %>
+  <% div_class = "can-friend"%>
+<% end %>
+
+<div class="friend-buttons <%= div_class %>" >
+  <button type="button" class="friend"
+    data-id="<%= user.id %>" >Add Friend</button>
+
+  <button type="button" class="unfriend"
+    data-id="<%= user.id %>">Destroy friend :(</button>
+  <br>
+</div>
