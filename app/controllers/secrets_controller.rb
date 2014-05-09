@@ -8,12 +8,13 @@ class SecretsController < ApplicationController
     @secret = Secret.new(secret_params)
     @secret.author_id = current_user.id
 
-    if @secret.try(:save)
-      redirect_to user_url(@secret.recipient_id)
-    else
-      flash[:errors] = @secret.errors.full_messages
-      redirect_to user_url(@secret.recipient_id)
+    @secret.try(:save)
+
+    respond_to do |format|
+      # format.html { redirect_to users_url }
+      format.json { render json: @secret }
     end
+
 
   end
 
