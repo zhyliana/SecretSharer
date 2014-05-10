@@ -28,6 +28,7 @@ class UsersController < ApplicationController
       redirect_to user_url(current_user)
       return
     end
+    @tags = Tag.all
 
     @user = User.find(params[:id])
 
