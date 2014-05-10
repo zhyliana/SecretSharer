@@ -24,6 +24,7 @@ Post a secret:
       type: "POST",
       data: $(this).serialize(),
       success: function () {
+        $("#secret_title").val("");
         console.log("success");
         $.ajax({
           url: "/users/" + userID + ".json",
